@@ -132,6 +132,9 @@ int main (int argc, char **argv)
 	 // Source IPv4 address
 	 strcpy (src_ip, "140.117.172.88");
 
+         int alive_cnt = 0;
+	 
+
 	 // Destination "URL" or "IPv4 address"
 	 // run subnet ip range from .1~.254 except myself
 	 for(int i=1;i<=254;i++)
@@ -296,7 +299,7 @@ int main (int argc, char **argv)
 	     }
 
 	     // Set maximum number of tries to ping remote host before giving up.
-	     trylim = 15;
+	     trylim = 3;
 	     trycount = 0;
 
 	     // Cast recv_iphdr as pointer to IPv4 header within received ethernet frame.
@@ -379,6 +382,7 @@ int main (int argc, char **argv)
                         //printf ("%s  %g ms (%i bytes received)\n", rec_ip, dt, bytes);
                         printf(KYEL"PING %s (data size = 10, id = 0x2657 ,seq = %d ,timeout = 10000 ms)\n",target,i);
                         printf(KRED"\tReply from : %s ,time : %g ms\n",target,dt);
+			alive_cnt++;
                         done = 1;
                         break;  // Break out of Receive loop.
                   }  // End if IP ethernet frame carrying ICMP_ECHOREPLY
@@ -414,7 +418,7 @@ int main (int argc, char **argv)
 
 	
 	} // send to all (except src:me) end
-    
+      printf("Number of Alive: %d\n",alive_cnt);
       // Close socket descriptors.
 	  close (sendsd);
 	  close (recvsd);
