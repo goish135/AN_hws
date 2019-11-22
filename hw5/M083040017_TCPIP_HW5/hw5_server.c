@@ -41,16 +41,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    /*
-     * Create socket file descriptor.
-     * Function Prototype: int socket(int domain, int type,int protocol)
-     * Defined in sys/socket.h
-     *
-     * @param domain:   AF_INET stands for Internet, AF_UNIX can only communicate between UNIX systems.
-     * @param type      the prototype to use, SOCK_STREAM stands for TCP and SOCK_DGRAM stands for UDP
-     * @param protocol  if type is specified, this parameter can be assigned to 0.
-     * @return -1 if socket is failed to create
-     */
+
     int tcpSocketFileDescriptor = socket(AF_INET, SOCK_STREAM, 0);
     int udpSocketFileDescriptor = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -256,7 +247,7 @@ int acceptConnections(int tcpSocketFileDescriptor, int udpSocketFileDescriptor) 
                         inet_ntoa(clientSocketAddress.sin_addr), ntohs(clientSocketAddress.sin_port), inputBuffer);
                 } else {
                     // Send a message to client
-                    
+                    // send back what unique message (cookie) which client send to server
                     if ( send(clientSocketFD, inputBuffer, strlen(inputBuffer), 0) == -1 ) {
                         clientSocketFileDescriptors[i] = 0;
 
