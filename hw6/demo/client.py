@@ -9,8 +9,12 @@ print "Collecting updates from server..."
 socket.connect ("tcp://localhost:%s" % port)
 topicfilter = "6"
 socket.setsockopt(zmq.SUBSCRIBE, topicfilter)
-for update_nbr in range(10):
-    string = socket.recv()
-    topic, messagedata = string.split()
-    print topic, messagedata
+
+try:
+    for update_nbr in range(10):
+        string = socket.recv()
+        topic, messagedata = string.split()
+        print topic, messagedata
+except KeyboardInterrupt:
+    print "\nQuit using Ctrl+C"
 

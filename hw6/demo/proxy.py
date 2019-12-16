@@ -13,8 +13,10 @@ def main():
         # Socket facing services
         backend = context.socket(zmq.PUB)
         backend.bind("tcp://*:5560")
-
-        zmq.device(zmq.FORWARDER, frontend, backend)
+        try:
+            zmq.device(zmq.FORWARDER, frontend, backend)
+        except KeyboardInterrupt:
+            print "\nQuit using Ctrl+c"
     except Exception, e:
         print e
         print "bringing down zmq device"
